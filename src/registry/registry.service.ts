@@ -39,12 +39,10 @@ export class RegistryService {
     console.log('Resolved dbPath:', this.dbPath);
     const db = this.readDb();
     // Print the database content for debugging
-    console.log('Database Content:', db);
+    //console.log('Database Content:', db);
     if (iss && jku) {
       const result = db.find((item) => item.iss === iss && item.jku === jku);
-      return result
-        ? { clientId: result.clientId, clientName: result.clientName }
-        : {};
+      return result ? result : {};
     }
     return db;
   }
