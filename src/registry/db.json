@@ -1,0 +1,9 @@
+
+[
+  {
+    "iss": "https://example.com",
+    "jku": "https://example.com/jwks",
+    "clientId": "12345",
+    "clientName": "Example Client"
+  }
+]
