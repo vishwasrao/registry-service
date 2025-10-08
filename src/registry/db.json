@@ -14,7 +14,7 @@
       {
         "id": "crd-service",
         "name": "CRD Service",
-        "description": "An CRD CDS service",
+        "description": "CRD CDS service",
         "hook": "order-sign"
       }
     ]

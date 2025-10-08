@@ -9,6 +9,14 @@ export interface RegistryData {
   jku: string;
   clientId: string;
   clientName: string;
+  services?: ServiceDesc[];
+}
+
+export interface ServiceDesc {
+  id: string;
+  name: string;
+  description?: string;
+  hook?: string;
 }
 
 @Injectable()
@@ -45,6 +53,20 @@ export class RegistryService {
       return result ? result : {};
     }
     return db;
+  }
+
+  /**
+   * Return the 'services' array for a matching registry entry.
+   * If no match or no services, returns an empty object.
+   */
+  findServices(iss?: string, jku?: string): { services?: ServiceDesc[] } {
+    if (!iss || !jku) return {};
+    const db = this.readDb();
+    const result = db.find((item) => item.iss === iss && item.jku === jku);
+    if (result && Array.isArray(result.services)) {
+      return { services: result.services };
+    }
+    return {};
   }
 
   findOne(id: number) {
