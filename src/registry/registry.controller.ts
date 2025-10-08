@@ -13,7 +13,7 @@ import { RegistryService, RegistryData } from './registry.service';
 import { CreateRegistryDto } from './dto/create-registry.dto';
 import { UpdateRegistryDto } from './dto/update-registry.dto';
 
-@Controller('registry')
+@Controller('services')
 export class RegistryController {
   constructor(private readonly registryService: RegistryService) { }
 
@@ -26,7 +26,7 @@ export class RegistryController {
   findAll(
     @Query('iss') iss?: string,
     @Query('jku') jku?: string,
-  ): RegistryData | RegistryData[] {
+  ) {
     if (iss && jku) {
       const entry = this.registryService.findByIssJku(iss, jku);
       if (!entry) {
@@ -34,7 +34,7 @@ export class RegistryController {
       }
       return entry;
     }
-    return this.registryService.findAll();
+    return this.registryService.findServices();
   }
 
   @Get('discovery')
