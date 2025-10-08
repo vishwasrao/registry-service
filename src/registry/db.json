@@ -9,6 +9,14 @@
     "iss": "https://sandbox.cds-hooks.org",
     "jku": "https://sandbox.cds-hooks.org/.well-known/jwks.json",
     "clientId": "e7b8c9d2-4f1a-4e3b-9c2d-7f6a5b4c3d2e",
-    "clientName": "CDS Hooks Sandbox Client"
+    "clientName": "CDS Hooks Sandbox Client",
+    "services": [
+      {
+        "id": "crd-service",
+        "name": "CRD Service",
+        "description": "An CRD CDS service",
+        "hook": "order-sign"
+      }
+    ]
   }
 ]
