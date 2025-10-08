@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  NotFoundException,
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { RegistryService, RegistryData } from './registry.service';
 import { CreateRegistryDto } from './dto/create-registry.dto';
 import { UpdateRegistryDto } from './dto/update-registry.dto';
@@ -13,11 +23,18 @@ export class RegistryController {
   }
 
   @Get()
-  findAll(iss?: string, jku?: string):
-    | RegistryData[]
-    | { clientId: string; clientName: string }
-    | { clientId?: undefined; clientName?: undefined } {
-    return this.registryService.findAll(iss, jku);
+  findAll(
+    @Query('iss') iss?: string,
+    @Query('jku') jku?: string,
+  ): RegistryData | RegistryData[] {
+    if (iss && jku) {
+      const entry = this.registryService.findByIssJku(iss, jku);
+      if (!entry) {
+        throw new NotFoundException('Registry entry not found');
+      }
+      return entry;
+    }
+    return this.registryService.findAll();
   }
 
   @Get('discovery')

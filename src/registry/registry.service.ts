@@ -40,19 +40,26 @@ export class RegistryService {
     return 'This action adds a new registry';
   }
 
-  findAll(iss?: string, jku?: string) {
+  findAll(iss?: string, jku?: string): RegistryData[] {
     // print query parameters for debugging
     console.log(`Query Parameters - iss: ${iss}, jku: ${jku}`);
     // print the resolved dbPath for debugging
     console.log('Resolved dbPath:', this.dbPath);
     const db = this.readDb();
-    // Print the database content for debugging
-    //console.log('Database Content:', db);
     if (iss && jku) {
       const result = db.find((item) => item.iss === iss && item.jku === jku);
-      return result ? result : {};
+      return result ? [result] : [];
     }
     return db;
+  }
+
+  /**
+   * Find a single registry entry by iss and jku. Returns null if not found.
+   */
+  findByIssJku(iss: string, jku: string): RegistryData | null {
+    const db = this.readDb();
+    const result = db.find((item) => item.iss === iss && item.jku === jku);
+    return result ?? null;
   }
 
   /**
@@ -63,7 +70,7 @@ export class RegistryService {
     const services: ServiceDesc[] = [];
     for (const entry of db) {
       if (Array.isArray(entry.services)) {
-        services.push(...(entry.services as ServiceDesc[]));
+        services.push(...entry.services);
       }
     }
     return { services };
