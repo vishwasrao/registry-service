@@ -19,21 +19,11 @@ describe('Discovery (e2e)', () => {
         await app.close();
     });
 
-    it('returns services for a valid iss/jku', async () => {
-        const res = await request(app.getHttpServer())
-            .get('/registry/discovery')
-            .query({
-                iss: 'https://sandbox.cds-hooks.org',
-                jku: 'https://sandbox.cds-hooks.org/.well-known/jwks.json',
-            })
-            .expect(200);
+    it('returns aggregated services when called without params', async () => {
+        const res = await request(app.getHttpServer()).get('/registry/discovery').expect(200);
 
         expect(res.body).toHaveProperty('services');
         expect(Array.isArray(res.body.services)).toBe(true);
         expect(res.body.services.length).toBeGreaterThan(0);
-    });
-
-    it('returns 400 when params are missing', async () => {
-        await request(app.getHttpServer()).get('/registry/discovery').expect(400);
     });
 });

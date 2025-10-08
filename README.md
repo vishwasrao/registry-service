@@ -3,13 +3,12 @@
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-# registry-service
+## registry-service
 
 Lightweight CDS Hooks registry mock used for development and testing.
 
 This service exposes a small registry of clients and their published CDS services. It loads entries from `src/registry/db.json` and exposes HTTP endpoints to query registered clients and discover their services.
 
----
 
 ## Table of contents
 
@@ -23,7 +22,6 @@ This service exposes a small registry of clients and their published CDS service
 - [Contributing](#contributing)
 - [License](#license)
 
----
 
 ## Key features
 
@@ -49,15 +47,15 @@ Open http://localhost:3000
   - If no params provided returns the full registry array (contents of `src/registry/db.json`).
   - If `iss` and `jku` provided, returns the single matching registry entry.
 
-- `GET /registry/discovery?iss=<ISS>&jku=<JKU>`
-  - Validates that both `iss` and `jku` are present and are valid URLs.
-  - Returns 400 if validation fails.
-  - On success returns: `{ "services": [ ... ] }` (empty object if no services found).
+ `GET /registry/discovery`
+   - Returns all services aggregated from `src/registry/db.json`.
+   - No query parameters required.
+   - Response: `{ "services": [ ... ] }` (empty array if no services found).
 
 Example discovery request:
 
 ```http
-GET /registry/discovery?iss=https://sandbox.cds-hooks.org&jku=https://sandbox.cds-hooks.org/.well-known/jwks.json
+GET /registry/discovery
 ```
 
 Example discovery response:

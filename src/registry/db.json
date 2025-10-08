@@ -1,11 +1,5 @@
 [
   {
-    "iss": "https://example.com",
-    "jku": "https://example.com/jwks",
-    "clientId": "d4f6b1a2-9a3e-4c2b-8a12-3f4e5d6c7b8a",
-    "clientName": "Example Client"
-  },
-  {
     "iss": "https://sandbox.cds-hooks.org",
     "jku": "https://sandbox.cds-hooks.org/.well-known/jwks.json",
     "clientId": "e7b8c9d2-4f1a-4e3b-9c2d-7f6a5b4c3d2e",

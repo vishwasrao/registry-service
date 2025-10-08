@@ -56,17 +56,17 @@ export class RegistryService {
   }
 
   /**
-   * Return the 'services' array for a matching registry entry.
-   * If no match or no services, returns an empty object.
+   * Aggregate and return all services defined in the registry database.
    */
-  findServices(iss?: string, jku?: string): { services?: ServiceDesc[] } {
-    if (!iss || !jku) return {};
+  findServices(): { services: ServiceDesc[] } {
     const db = this.readDb();
-    const result = db.find((item) => item.iss === iss && item.jku === jku);
-    if (result && Array.isArray(result.services)) {
-      return { services: result.services };
+    const services: ServiceDesc[] = [];
+    for (const entry of db) {
+      if (Array.isArray(entry.services)) {
+        services.push(...(entry.services as ServiceDesc[]));
+      }
     }
-    return {};
+    return { services };
   }
 
   findOne(id: number) {

@@ -1,15 +1,5 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Query,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { RegistryService, RegistryData } from './registry.service';
-import { BadRequestException } from '@nestjs/common';
 import { CreateRegistryDto } from './dto/create-registry.dto';
 import { UpdateRegistryDto } from './dto/update-registry.dto';
 
@@ -23,10 +13,7 @@ export class RegistryController {
   }
 
   @Get()
-  findAll(
-    @Query('iss') iss?: string,
-    @Query('jku') jku?: string,
-  ):
+  findAll(iss?: string, jku?: string):
     | RegistryData[]
     | { clientId: string; clientName: string }
     | { clientId?: undefined; clientName?: undefined } {
@@ -34,22 +21,8 @@ export class RegistryController {
   }
 
   @Get('discovery')
-  discoveryGet(@Query('iss') iss?: string, @Query('jku') jku?: string) {
-    // Validate presence
-    if (!iss || !jku) {
-      throw new BadRequestException('iss and jku query parameters are required');
-    }
-    // Validate URL formats
-    try {
-      // eslint-disable-next-line no-new
-      new URL(iss);
-      // eslint-disable-next-line no-new
-      new URL(jku);
-    } catch (e) {
-      throw new BadRequestException('iss and jku must be valid URLs');
-    }
-
-    return this.registryService.findServices(iss, jku);
+  discoveryGet() {
+    return this.registryService.findServices();
   }
 
   // POST discovery removed; use GET /registry/discovery?iss=...&jku=...
